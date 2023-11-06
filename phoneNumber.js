@@ -1,11 +1,16 @@
-// Create a function testPhoneNumber 
+// Create a function testPhoneNumber
 // takes in a phoneNumber string in one of these formats:
 // '(206) 333-4444'
 // '206-333-4444'
 // '206 333 4444'
 // Returns true if valid, false if not valid
+function testPhoneNumber(x) {
+  const regEx = /^\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{4}$/;
+  return regEx.test(x);
+}
 
-
+console.log(testPhoneNumber("(206) 333-4444")); //true
+console.log(testPhoneNumber("(206) 33-4444")); //false
 
 // Explanation of RegExp
 // ^      start of line
@@ -19,22 +24,32 @@
 // $      end of line
 
 // check testPhoneNumber
-console.log(testPhoneNumber('(206) 333-4444')); // should return true
-console.log(testPhoneNumber('(206) 33-4444')); // should return false, missing a digit
+console.log(testPhoneNumber("(206) 333-4444")); // should return true
+console.log(testPhoneNumber("(206) 33-4444")); // should return false, missing a digit
 
-
-// 1. Create a function parsePhoneNumber that takes in a phoneNumber string 
+// 1. Create a function parsePhoneNumber that takes in a phoneNumber string
 // in one of the above formats.  For this, you can *assume the phone number
 // passed in is correct*.  This should use a regular expression
 // and run the exec method to capture the area code and remaining part of
 // the phone number.
 // Returns an object in the format {areaCode, phoneNumber}
 
+function parsePhoneNumber(number) {
+  const regEx = /^\(?\d{3}\)?[-\s]?\d{3}[-\s]?\d{4}$/;
+  const areaCode = /\d{3}/.exec(number).toString();
+  const phoneNumber = /\d{3}[-\s]?\d{4}/
+    .exec(number)
+    .toString()
+    .replace("-", "");
+  return { areaCode, phoneNumber };
+}
 
+console.log(parsePhoneNumber("206-333-4444"));
+console.log(parsePhoneNumber("(222) 422-5353"));
 
 // Check parsePhoneNumber
-console.log(parsePhoneNumber('206-333-4444'));
+console.log(parsePhoneNumber("206-333-4444"));
 // returns {areaCode: '206', phoneNumber: '3334444'}
 
-console.log(parsePhoneNumber('(222) 422-5353'));
+console.log(parsePhoneNumber("(222) 422-5353"));
 // returns {areaCode: '222', phoneNumber: '4225353'}
